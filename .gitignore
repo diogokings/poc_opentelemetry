@@ -1,1 +1,4 @@
 .DS_Store
+.idea/
+location-api/target/
+location-api/cities.iml
