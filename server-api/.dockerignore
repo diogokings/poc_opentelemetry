@@ -1,0 +1,13 @@
+**/.classpath
+**/.dockerignore
+**/.gitignore
+**/bin
+**/charts
+**/docker-compose.yml
+**/Dockerfile
+.mvn/
+mvnw/
+.idea/
+mvnw.cmd
+HELP.md
+README.md

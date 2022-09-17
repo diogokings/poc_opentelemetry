@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+
+  # Execute o comando a baixo primeiro, antes de executar "docker-compose up"
+  # --> docker build -t server-api <path_to_dockerfile>
+  server-api:
+    image: 'server-api'
+    ports:
+      - "8080:8080"
+    depends_on:
+      - location-api
+
+  # Execute o comando a baixo primeiro, antes de executar "docker-compose up"
+  # --> docker build -t location-api <path_to_dockerfile>
+  location-api:
+    image: 'location-api'
+    ports:
+      - "8081:8081"
+
+  # Execute o comando a baixo primeiro, antes de executar "docker-compose up"
+  # --> docker build -t otel-collector <path_to_dockerfile>
+  otel-collector:
+    image: 'otel-collector'
+    command: ["--config=/config/otel-collector-config.yaml"]
+    ports:
+      - "4317"        # OTLP gRPC receiver
+      - "1888:1888"   # pprof extension
+      - "9464:9464"   # prometheus
+      - "55670:55679" # zpages extension
+      - "55680:55680"
+      - "55681:55681"
+      - "13133:13133" # health_check extension
+    depends_on:
+      - jaeger
+      - prometheus
+
+  # Execute o comando a baixo primeiro, antes de executar "docker-compose up"
+  # --> docker build -t prometheus <path_to_dockerfile>
+  prometheus:
+    container_name: prometheus
+    image: 'prometheus'
+    ports:
+      - "9090:9090"
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268"
+      - "14250"

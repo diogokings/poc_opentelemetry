@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: "location-api"
+  sleuth:
+    otel:
+      config:
+        trace-id-ratio-based: 1.0
+      exporter:
+        otlp:
+          endpoint: http://otel-collector:4317
+
+server:
+  port: 8081
